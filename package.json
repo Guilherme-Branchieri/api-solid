@@ -2,7 +2,7 @@
   "name": "projeto-solid",
   "version": "1.0.0",
   "main": "index.js",
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
     "build": "tsup src --out-dir build",
     "start": "node build/server.js",
