@@ -2,10 +2,10 @@
   "name": "projeto-solid",
   "version": "1.0.0",
   "main": "index.js",
-  "type": "commonjs",
+  "type": "module",
   "scripts": {
     "build": "tsup src --out-dir build",
-    "start": "node build/server.js",
+    "start": "node build/server.cjs",
     "start:dev": "tsx watch src/server.ts",
     "test": "vitest run",
     "test:watch": "vitest",
@@ -32,6 +32,7 @@
     "bcryptjs": "2.4.3",
     "express": "^4.18.2",
     "fastify": "4.18.0",
+    "test": "3.3.0",
     "vite-tsconfig-paths": "4.2.0",
     "vitest": "0.32.0",
     "zod": "3.21.4"
