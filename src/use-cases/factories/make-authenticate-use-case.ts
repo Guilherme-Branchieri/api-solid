@@ -4,5 +4,6 @@ import { AuthenticateUseCase } from "@/use-cases/authenticate";
 export function makeAuthenticateUseCase() {
   const usersRepository = new InMemoryUsersRepository();
   const authenticateUseCase = new AuthenticateUseCase(usersRepository);
+
   return authenticateUseCase;
 }
