@@ -1,7 +1,5 @@
-import bcrypt from "bcryptjs";
 import { CheckInsRepository } from "@/repositories/check-ins-repository";
 import { CheckIn } from "@prisma/client";
-import { date } from "zod";
 
 interface CheckInUseCaseRequest {
   gymId: string;
