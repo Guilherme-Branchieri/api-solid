@@ -5,7 +5,7 @@ import { randomUUID } from "crypto";
 export class InMemoryGymsRepository implements GymsRepository {
   public gyms: Gym[] = [];
   async findById(id: string) {
-    const gym = await this.gyms.find((item) => item.id === id);
+    const gym = this.gyms.find((item) => item.id === id);
     if (!gym) {
       return null;
     }
@@ -23,7 +23,7 @@ export class InMemoryGymsRepository implements GymsRepository {
       created_at: new Date(),
     };
 
-    await this.gyms.push(gym);
+    this.gyms.push(gym);
 
     return gym;
   }

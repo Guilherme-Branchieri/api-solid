@@ -2,7 +2,7 @@ import { expect, describe, it, beforeEach } from "vitest";
 import { hash } from "bcryptjs";
 import { InMemoryUsersRepository } from "@/repositories/in-memory/in-memory-users-repository";
 import { GetUserProfileUseCase } from "./get-user-profile";
-import { ResourceNotFoundError } from "./errors/resource-not-found";
+import { ResourceNotFoundError } from "./errors/resource-not-found-error";
 
 let usersRepository: InMemoryUsersRepository;
 let sut: GetUserProfileUseCase;
@@ -36,7 +36,7 @@ describe("Get User Profile Use Case", async function () {
 
     await expect(() =>
       sut.execute({
-        userId: "0"
+        userId: "0",
       })
     ).rejects.toBeInstanceOf(ResourceNotFoundError);
   });
