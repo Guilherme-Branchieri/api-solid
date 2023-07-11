@@ -2,12 +2,12 @@ import { CheckInsRepository } from "@/repositories/check-ins-repository";
 
 import { CheckIn } from "@prisma/client";
 
-interface FetchUserCheckInHistoryRequest {
+interface FetchUserCheckInHistoryUseCaseRequest {
   userId: string;
-  page: number
+  page: number;
 }
 
-interface FetchUserCheckInHistoryResponse {
+interface FetchUserCheckInHistoryUseCaseResponse {
   checkIns: CheckIn[];
 }
 
@@ -16,9 +16,12 @@ export class FetchUserCheckInHistoryUseCase {
 
   async execute({
     userId,
-    page
-  }: FetchUserCheckInHistoryRequest): Promise<FetchUserCheckInHistoryResponse> {
-    const checkIns = await this.checkInsRepository.findManyByUserId(userId, page);
+    page,
+  }: FetchUserCheckInHistoryUseCaseRequest): Promise<FetchUserCheckInHistoryUseCaseResponse> {
+    const checkIns = await this.checkInsRepository.findManyByUserId(
+      userId,
+      page
+    );
 
     return {
       checkIns,
