@@ -1,9 +1,8 @@
-import { InMemoryCheckInsRepository } from "@/repositories/in-memory/in-memory-check-ins-repository";
-import { CheckInUseCase } from "../check-in";
+import { PrismaUsersRepository } from "@/repositories/prisma/prisma-users-repository";
+import { GetUserProfileUseCase } from "../get-user-profile";
 
-export function makeRegisterUseCase() {
-  const checkInRepostory = new InMemoryCheckInsRepository();
-  const checkInUseCase = new CheckInUseCase(checkInRepostory);
-
-  return checkInUseCase;
+export function makeGetUserProfileUseCase() {
+  const usersRepository = new PrismaUsersRepository();
+  const getUserProfileUseCase = new GetUserProfileUseCase(usersRepository);
+  return getUserProfileUseCase;
 }

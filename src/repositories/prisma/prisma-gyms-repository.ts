@@ -1,7 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { FindManyNearbyParams, GymsRepository } from "../gyms-repository";
 import { Gym, Prisma } from "@prisma/client";
-import { getDistanceBetweenCoordinates } from "@/utils/get-distance-between-coordinates";
 
 export class PrismaGymsRepository implements GymsRepository {
   async findById(id: string): Promise<Gym | null> {
@@ -13,12 +12,15 @@ export class PrismaGymsRepository implements GymsRepository {
 
     return gym;
   }
-  async findManyNearby({ latitude, longitude }: FindManyNearbyParams): Promise<Gym[]> {
+  async findManyNearby({
+    latitude,
+    longitude,
+  }: FindManyNearbyParams): Promise<Gym[]> {
     const gyms = await prisma.$queryRaw<Gym[]>`
         SELECT WHERE ( 6371 * acos( cos( radians(${latitude}) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians(${longitude}) ) + sin( radians(${latitude}) ) * sin( radians( latitude ) ) ) ) <= 10
    `;
 
-   return gyms
+    return gyms;
   }
   async searchMany(query: string, page: number): Promise<Gym[]> {
     const gyms = await prisma.gym.findMany({

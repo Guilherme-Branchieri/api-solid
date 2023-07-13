@@ -1,10 +1,14 @@
 import fastify from "fastify";
 import { ZodError, z } from "zod";
-import { prisma } from "./lib/prisma";
+import fastifyJwt from "@fastify/jwt";
 import { appRoutes } from "./http/controllers/routes";
 import { env } from "./env";
 
 export const app = fastify();
+
+app.register(fastifyJwt, {
+  secret: env.JWT_SECRET,
+});
 
 app.register(appRoutes);
 
