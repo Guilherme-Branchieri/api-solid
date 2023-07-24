@@ -29,7 +29,7 @@ export async function authenticate(
         },
       }
     );
-    return reply.status(200).send({token});
+    return reply.status(200).send({ token });
   } catch (err) {
     if (err instanceof InvalidCredentialsError) {
       return reply.status(409).send({ message: err.message });
