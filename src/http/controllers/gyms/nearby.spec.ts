@@ -1,9 +1,10 @@
-import { describe, it, expect, beforeAll, afterAll } from "vitest";
 import request from "supertest";
 import { app } from "@/app";
+import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { createAndAuthenticateUser } from "@/utils/test/create-and-authenticate-user";
+import { prisma } from "@/lib/prisma";
 
-describe("Search Gym Nearby(e2e)", () => {
+describe("Nearby Gyms (e2e)", () => {
   beforeAll(async () => {
     await app.ready();
   });
@@ -11,49 +12,35 @@ describe("Search Gym Nearby(e2e)", () => {
   afterAll(async () => {
     await app.close();
   });
-  it("should be able to list nearby gyms", async () => {
-    const { token } = await createAndAuthenticateUser(app);
-    /*await gymsRepository.create({
-        title: "Near gym",
-        description: null,
-        phone: null,
-        latitude: -27.2092052,
-        longitude: -49.6401091,
-      });
-  
-      await gymsRepository.create({
-        title: "Far Gym",
-        description: null,
-        phone: null,
-        latitude: -29.1499416,
-        longitude: -51.5955655,*/
-    await request(app.server)
-      .post("/gyms/create")
-      .set("Authorization", `Bearer ${token}`)
-      .send({
-        title: "Near Test Gym",
-        description: "Just testing",
-        phone: "0000-000",
-        latitude: -27.2092052,
-        longitude: -49.6401091,
-      });
 
-    await request(app.server)
-      .post("/gyms/create")
-      .set("Authorization", `Bearer ${token}`)
-      .send({
-        title: "Far Test Gym",
-        description: "Just testing, again!",
-        phone: "0000-000",
-        latitude: -29.1499416,
-        longitude: -51.5955655,
-      });
+  it("should be able to list nearby gyms", async () => {
+    await prisma.gym.create({
+      data: {
+        title: "JavaScript Gym",
+        description: "Some description.",
+        phone: "1199999999",
+        latitude: -27.2092052,
+        longitude: -49.6401091,
+      },
+    });
+
+    await prisma.gym.create({
+      data: {
+        title: "TypeScript Gym",
+        description: "Some description.",
+        phone: "1199999999",
+        latitude: -27.0610928,
+        longitude: -49.5229501,
+      },
+    });
+    
+    const { token } = await createAndAuthenticateUser(app);
 
     const response = await request(app.server)
       .get("/gyms/nearby")
       .query({
-        latitude: -29.1499416,
-        longitude: -51.5955655,
+        latitude: -27.2092052,
+        longitude: -49.6401091,
       })
       .set("Authorization", `Bearer ${token}`)
       .send();
@@ -62,7 +49,7 @@ describe("Search Gym Nearby(e2e)", () => {
     expect(response.body.gyms).toHaveLength(1);
     expect(response.body.gyms).toEqual([
       expect.objectContaining({
-        title: "Near Test Gym",
+        title: "JavaScript Gym",
       }),
     ]);
   });

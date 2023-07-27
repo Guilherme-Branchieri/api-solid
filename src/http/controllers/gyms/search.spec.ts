@@ -11,10 +11,10 @@ describe("Search Gym (e2e)", () => {
   afterAll(async () => {
     await app.close();
   });
-  it("should be able to get search for a gym", async () => {
+  it("should be able to search for specific gym", async () => {
     const { token } = await createAndAuthenticateUser(app);
     await request(app.server)
-      .post("/gyms/create")
+      .post("/gyms")
       .set("Authorization", `Bearer ${token}`)
       .send({
         title: "Gym Tester",
@@ -25,7 +25,7 @@ describe("Search Gym (e2e)", () => {
       });
 
     await request(app.server)
-      .post("/gyms/create")
+      .post("/gyms")
       .set("Authorization", `Bearer ${token}`)
       .send({
         title: "Tester Gym",

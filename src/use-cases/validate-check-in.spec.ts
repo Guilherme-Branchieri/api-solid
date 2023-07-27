@@ -26,7 +26,7 @@ describe("Validate Check In Use Case", () => {
       userId: "user-01",
     });
     await sut.execute({
-      checkinId: createNewCheckIn.id,
+      checkInId: createNewCheckIn.id,
     });
 
     expect(createNewCheckIn.validated_at).toEqual(expect.any(Date));
@@ -38,7 +38,7 @@ describe("Validate Check In Use Case", () => {
   it("should not be able to validate an non-existent check-in", async () => {
     await expect(() =>
       sut.execute({
-        checkinId: "non-existing-check-in-id",
+        checkInId: "non-existing-check-in-id",
       })
     ).rejects.toBeInstanceOf(ResourceNotFoundError);
   });
@@ -57,7 +57,7 @@ describe("Validate Check In Use Case", () => {
 
     await expect(() =>
       sut.execute({
-        checkinId: createNewCheckIn.id,
+        checkInId: createNewCheckIn.id,
       })
     ).rejects.toBeInstanceOf(LateCheckInValidationError);
   });

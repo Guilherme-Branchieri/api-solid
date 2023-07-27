@@ -1,10 +1,10 @@
 import fastify from "fastify";
 import { ZodError, z } from "zod";
 import fastifyJwt from "@fastify/jwt";
-import { userRoutes } from "./http/controllers/users/routes";
+import { userRoutes } from "./http/controllers/users/_routes";
 import { env } from "./env";
-import { gymRoutes } from "./http/controllers/gyms/routes";
-import { checkInsRoutes } from "./http/controllers/check-ins/routes";
+import { gymRoutes } from "./http/controllers/gyms/_routes";
+import { checkInsRoutes } from "./http/controllers/check-ins/_routes";
 
 export const app = fastify();
 
@@ -18,6 +18,7 @@ app.register(checkInsRoutes);
 
 app.setErrorHandler((error, _, reply) => {
   if (error instanceof ZodError) {
+    console.error(error.message);
     return reply
       .status(400)
       .send({ message: "Validation error", issues: error.format() });

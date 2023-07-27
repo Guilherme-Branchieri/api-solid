@@ -1,5 +1,6 @@
 import { FastifyInstance } from "fastify";
 import request from "supertest";
+import { z } from "zod";
 
 export async function createAndAuthenticateUser(app: FastifyInstance) {
   await request(app.server).post("/users").send({
