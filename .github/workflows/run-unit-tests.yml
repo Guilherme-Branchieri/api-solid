@@ -1,6 +1,6 @@
 name: Run Unit Tests
 
-on: [push]
+on: [push, pull_request]
 
 jobs: 
     run-unit-tests: 
@@ -12,10 +12,10 @@ jobs:
           - uses: actions/setup-node@v3
             with: 
               node-version: 18
-              cache: 'npm'
+              cache: 'yarn'
             
           
 
-          - run: npm ci 
+          - run: yarn
           
-          - run: npm run test
+          - run: yarn test
