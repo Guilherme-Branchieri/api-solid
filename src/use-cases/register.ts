@@ -24,8 +24,6 @@ export class RegisterUseCase {
     const password_hash = await bcrypt.hash(password, 6);
 
     const userWithSameEmail = await this.usersRepository.findByEmail(email);
-    console.log(name, email, password)
-
     if (userWithSameEmail) {
       throw new UserAlreadyExistsError();
     }

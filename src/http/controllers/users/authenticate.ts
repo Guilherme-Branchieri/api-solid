@@ -7,12 +7,12 @@ export async function authenticate(
   request: FastifyRequest,
   reply: FastifyReply
 ) {
-  const registerBodySchema = z.object({
+  const AuthenticateBodySchema = z.object({
     email: z.string(),
     password: z.string().min(6),
   });
 
-  const { email, password } = registerBodySchema.parse(request.body);
+  const { email, password } = AuthenticateBodySchema.parse(request.body);
 
   try {
     const authenticateUseCase = makeAuthenticateUseCase();
@@ -22,14 +22,32 @@ export async function authenticate(
       password,
     });
     const token = await reply.jwtSign(
-      {},
+      {
+        role: user.role
+      },
       {
         sign: {
           sub: user.id,
         },
       }
     );
-    return reply.status(200).send({ token });
+
+    const refreshToken = await reply.jwtSign(
+      {role: user.role},
+      
+      {
+        sign: {
+          sub: user.id,
+          expiresIn: "7d",
+        },
+      }
+    );
+    return reply.setCookie('refreshToken', refreshToken, {
+      path: '/',
+      secure: true,
+      sameSite: true,
+      httpOnly: true,
+    }).status(200).send({ token });
   } catch (err) {
     if (err instanceof InvalidCredentialsError) {
       return reply.status(409).send({ message: err.message });
